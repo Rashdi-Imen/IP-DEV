@@ -1,0 +1,35 @@
+{% extends 'base2.html.twig' %}
+{% block title %}Ajout Fiche Collecte
+{% endblock %}
+{% block content %}
+
+<div class="page-wrapper">
+    <div class="content">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                       {{ form_start(form,{'attr': {'novalidate': 'novalidate'}} ) }}
+                        <div class="row">
+
+                            <div class="col-12">
+                                <div class="form-heading">
+                                    <h4>Ajouter Fiche</h4>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-6 col-xl-4">
+                             {{ include('fiche_collecte/_form.html.twig') }}
+
+    <a href="{{ path('app_fiche_collecte_index') }}">back to list</a>
+                            </div>
+                           
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

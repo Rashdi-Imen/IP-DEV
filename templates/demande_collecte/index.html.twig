@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+
+
+{% block content %}
+    <h1>Demandes de Collecte </h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>IdDemandeCollecte</th>
+                <th>DateDemande</th>
+                <th>EtatDemande</th>
+                <th>IdPoubelle</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for demande_collecte in demande_collectes %}
+            <tr>
+                <td>{{ demande_collecte.idDemandeCollecte }}</td>
+                <td>{{ demande_collecte.dateDemande ? demande_collecte.dateDemande|date('Y-m-d') : '' }}</td>
+                <td>{{ demande_collecte.etatDemande }}</td>
+                <td>{{ demande_collecte.idPoubelle }}</td>
+                <td>
+                   <a href="{{ path('app_demande_collecte_show', {'idDemandeCollecte': demande_collecte.idDemandeCollecte}) }}"
+                                            class="btn btn-sm bg-primary-light">
+                                            <i class="far fa-eye"></i>
+                                        </a>
+                                        &nbsp;
+                                        <a href="{{ path('app_demande_collecte_edit', {'idDemandeCollecte': demande_collecte.idDemandeCollecte}) }}" class="btn btn-sm bg-info-light">
+                                            <i class="far fa-edit"></i>
+                                        </a>
+
+                    
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_demande_collecte_new') }}">Create new</a>
+{% endblock %}
+
+
+
+ 

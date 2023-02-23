@@ -1,0 +1,78 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}Fiches de collecte{% endblock %}
+
+{% block content %}
+ <div class="page-wrapper">
+    <div class="content container-fluid pb-0">
+        <h4 class="mb-3">Fiches de collecte</h4>
+        <div class="row">
+            <div class="page-header">
+                <div class="row align-items-center">
+                    <div class="col-md-12 d-flex justify-content-end">
+                        <div class="text-right">
+                            <a class="btn btn-primary btn-add" style="width:190px" href="{{ path('app_fiche_collecte_new') }}">
+                                <i class="feather-plus-square me-1"></i>
+                                ajouter un fiche 
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <table class="table datatable-basic table table-borderless hover-table" id="datatable">
+                    <div class="card-body">
+                        <div class="header-elements">
+                            <thead class="thead-light">
+                                <tr>
+                                       <th>IdFiche</th>
+                                        <th>Poids</th>
+<th>Id DemandeCollecte</th>
+                                        <th>Id user</th>
+
+                                    <th>
+                                        <center>Actions</center>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                 {% for fiche_collecte in fiche_collectes %}
+                                    <tr>
+                                        <td>{{ fiche_collecte.idFicheCollecte }}</td>
+                                        <td>{{ fiche_collecte.poids }}</td>
+                                        <td>{{ fiche_collecte.idUser }}</td>
+                                        <td>{{ fiche_collecte.idDemandeCollecte }}</td>
+                                        
+                                       
+                                       <td style="display: inline-flex;margin-left: 78px;" colspan="3">
+
+                                        <a href="{{ path('app_fiche_collecte_show', {'idFicheCollecte': fiche_collecte.idFicheCollecte}) }}"
+                                            class="btn btn-sm bg-primary-light">
+                                            <i class="far fa-eye"></i>
+                                        </a>
+                                        &nbsp;
+                                        <a href="{{ path('app_fiche_collecte_edit', {'idFicheCollecte': fiche_collecte.idFicheCollecte}) }}" class="btn btn-sm bg-info-light">
+                                            <i class="far fa-edit"></i>
+                                        </a>
+                                        &nbsp;
+                                        {{ include('fiche_collecte/_delete_form.html.twig') }}
+                                    </td>
+                                            
+                                   
+
+                                </tr>
+                                {% else %}
+                                <tr>
+                                    <td colspan="20">no records found</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                            </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+

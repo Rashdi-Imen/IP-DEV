@@ -1,0 +1,6 @@
+
+<form method="post" action="{{ path('app_fiche_collecte_delete', {'idFicheCollecte': fiche_collecte.idFicheCollecte}) }}" 
+    onsubmit="return confirm('Are you sure you want to delete this item?');">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ fiche_collecte.idFicheCollecte) }}">
+    <button class="btn btn-sm bg-danger-light" ><i class="far fa-trash-alt"></i></button>
+</form>

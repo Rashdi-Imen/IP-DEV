@@ -1,0 +1,53 @@
+
+{% extends 'base2.html.twig' %}
+{% block title %}Ajout Fiche Collecte
+{% endblock %}
+{% block content %}
+
+<div class="page-wrapper">
+    <div class="content">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                      
+                        <div class="row">
+
+                            <div class="col-12">
+                                <div class="form-heading">
+                                    <h4>Ajouter Fiche</h4>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-6 col-xl-4">
+                            <h1>FicheCollecte</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>IdFicheCollecte</th>
+                <td>{{ fiche_collecte.idFicheCollecte }}</td>
+            </tr>
+            <tr>
+                <th>Poids</th>
+                <td>{{ fiche_collecte.poids }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_fiche_collecte_index') }}">back to list</a>
+
+    <a href="{{ path('app_fiche_collecte_edit', {'idFicheCollecte': fiche_collecte.idFicheCollecte}) }}">edit</a>
+
+    {{ include('fiche_collecte/_delete_form.html.twig') }}
+                            </div>
+                           
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

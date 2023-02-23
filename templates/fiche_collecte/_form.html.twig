@@ -1,0 +1,30 @@
+{{ form_start(form,{'attr': {'novalidate': 'novalidate'}} ) }}
+
+
+
+<table cellpadding = "10">
+<tr>
+<td> {{form_label(form.idUser,"id utilisateur")  }} </td>
+<td> {{form_widget(form.idUser,)  }} </td>
+<td> {{form_errors(form.idUser,)  }} </td>
+</tr>
+
+<tr>
+<td> {{form_label(form.idDemandeCollecte,"id Demande Collecte")  }} </td>
+<td> {{form_widget(form.idDemandeCollecte,)  }} </td>
+<td> {{form_errors(form.idDemandeCollecte,)  }} </td>
+</tr>
+
+<tr>
+<td> {{form_label(form.poids,"Poids")  }} </td>
+<td> {{form_widget(form.poids,)  }} </td>
+<td> {{form_errors(form.poids,)  }} </td>
+</tr>
+
+
+
+</table>
+    {{ form_widget(form) }}
+    <button class="btn">{{ button_label|default('Save') }}</button>
+
+{{ form_end(form) }}

@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}DemandeCollecte{% endblock %}
+
+{% block content %}
+    <h1>DemandeCollecte</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>IdDemandeCollecte</th>
+                <td>{{ demande_collecte.idDemandeCollecte }}</td>
+            </tr>
+            <tr>
+                <th>DateDemande</th>
+                <td>{{ demande_collecte.dateDemande ? demande_collecte.dateDemande|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>EtatDemande</th>
+                <td>{{ demande_collecte.etatDemande }}</td>
+            </tr>
+              <tr>
+                <th>IdPoubelle</th>
+                <td>{{ demande_collecte.idPoubelle }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_demande_collecte_index') }}">back to list</a>
+
+    <a href="{{ path('app_demande_collecte_edit', {'idDemandeCollecte': demande_collecte.idDemandeCollecte}) }}">edit</a>
+
+    {{ include('demande_collecte/_delete_form.html.twig') }}
+{% endblock %}
