@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -10,6 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="fiche_collecte", indexes={@ORM\Index(name="id_demande_collecte", columns={"id_demande_collecte"}), @ORM\Index(name="id_user", columns={"id_user"})})
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\FichesRepository")
  */
 class FicheCollecte
 {
@@ -20,7 +22,7 @@ class FicheCollecte
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-   
+    #[Groups("Fiches")]
     private $idFicheCollecte;
 
     /**
@@ -29,8 +31,9 @@ class FicheCollecte
      * @ORM\Column(name="poids", type="integer", nullable=false)
      */
     #[Assert\NotBlank (message:"champs obligatoire")]
+    #[Groups("Fiches")]
     #[Assert\Positive (message:"le poids doit etre positive")]
-    private $poids;
+    public $poids;
 
     /**
      * @var \DemandeCollecte
@@ -41,6 +44,7 @@ class FicheCollecte
      * })
      */
     #[Assert\NotBlank (message:"champs obligatoire")]
+    #[Groups("Fiches")]
     private $idDemandeCollecte;
 
     /**
