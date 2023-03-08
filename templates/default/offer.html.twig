@@ -1,0 +1,148 @@
+{% extends 'base.html.twig' %}
+
+
+{% block content %}
+        <style> 
+        .search-container {
+          position: relative;
+        }
+                form[action='/offres/search'] {
+                  display: flex;
+                  align-items: left;
+                  justify-content: left;
+                }
+
+                form[action='/offres/search'] input[type='text'] {
+                  padding: 10px;
+                  border: none;
+                  border-radius: 4px;
+                  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+                  transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+                }
+
+                form[action='/offres/search'] input[type='text']:focus {
+                  border-color: #66afe9;
+                  outline: 1;
+                  box-shadow: 1 0 0px rgba(102, 175, 233, 0.6);
+                }
+
+                form[action='/offres/search'] button[type='submit'] {
+                  padding: 10px;
+                  margin-left: 4px;
+                  background-color: #428bca;
+                  border: none;
+                  border-radius: 4px;
+                  color: #fff;
+                  cursor: pointer;
+                }
+
+                form[action='/offres/search'] button[type='submit']:hover {
+                  background-color: green;
+                }
+          .gridd{
+            display:grid;
+            grid-template-columns :repeat(3,1fr);
+            grid-gap :20px ;
+          }
+
+          .pagination {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin-top: 20px;
+        }
+
+        .pagination a {
+          display: block;
+          margin: 0 5px;
+          padding: 10px;
+          background-color: #fff;
+          border: 1px solid #ddd;
+          border-radius: 4px;
+          color: #333;
+          text-decoration: none;
+          transition: background-color 0.3s ease;
+        }
+
+        .pagination a:hover {
+          background-color: #ddd;
+        }
+
+        .pagination .active {
+          background-color: #007bff;
+          color: #fff;
+          border-color: #007bff;
+        }
+
+        .pagination .disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+        .pagination li:hover {
+          background-color: #007bff;
+          color: #fff;
+          border-color: #007bff;
+        }
+
+        .pagination li:hover a {
+          color: #fff;
+        }
+
+    </style>
+    
+    <!-- ======= Offer Section ======= -->
+    <section id="portfolio" class="portfolio">
+      <div class="container">
+
+        <div class="section-title" data-aos="fade-left">
+          <h2>Nos Offres</h2>
+        </div>
+       {#{formS.form}  <a href="{{ path('searchOffres')}}">Recherche Par Nom</a>#}
+        <form action="{{ path('offre_search') }}">
+          <input type="text" name="q" placeholder="Search for Offres">
+          <button type="submit">Search</button>
+        </form>
+     </br>
+        <div class="row" data-aos="fade-up" data-aos-delay="100">
+          <div class="col-lg-12 d-flex justify-content-center">         
+            <ul id="portfolio-flters">
+     
+              <li data-filter="*" class="filter-app">All</li>
+               {% for categorie in categorieOffres %}
+                 <li data-filter=".filter-{{ categorie.nom }}" >{{categorie.nom}}</li>  
+               {% endfor %}
+            </ul>
+          </div>
+        </div>
+      
+        <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
+
+          
+        {% for offre in offres %}
+          <div class="col-lg-4 col-md-6 portfolio-item filter-web filter-{{ offre.Idcategorie }}" >
+            <div class="portfolio-wrap">           
+              <img src="{{ asset('/images/' ~ offre.image) }}" class="img-fluid" alt="">
+              <div class="portfolio-info">
+                <h4>{{offre.nom}} : {{offre.Points}}% </h4>
+                <p>{{offre.description}}</p>        
+                <div class="portfolio-links">
+                {#     <a href="assets/img/portfolio/portfolio-2.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Web 3"><i class="bx bx-plus"></i></a>#}
+                       <a href="{{ path('app_details_show' ,{'idOffre': offre.idOffre}) }}" >  datails <i class="bx bx-link"></i></a> 
+                </div>
+              </div>
+            </div> 
+          </div>
+          {% endfor %}
+<br>
+       
+
+        </div>
+
+      </div>
+    </section><!-- End Portfolio Section -->
+
+      <div class="pagination">
+             {{ knp_pagination_render(offres) }}
+      </div>
+
+{% endblock %}

@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Offre{% endblock %}
+
+{% block content %}
+
+<br> <br> <br> <br>
+
+<div class="page-wrapper" style="width: 1000px ;"  >
+	<div class="content container-fluid pb-0">
+		<div class="card">
+			<div class="col-md-12 col-12">
+				<nav aria-label="breadcrumb" class="page-breadcrumb">
+					<ol class="breadcrumb"></ol>
+				</nav>
+			</div>
+			<div class="content">
+				<div class="container-fluid">
+					<div class="row" style="justify-content: center;">
+						<div class="page-header">
+							<div class="row align-items-center">
+								<div class="col-md-12 d-flex justify-content-end" align="center">
+									<div class="text-right">
+										<a class="btn btn-success btn-add" style="width:190px" href="{{ path('offers') }}">
+											<i class="feather-corner-up-left "></i>
+											Liste offres
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div><br>
+					<div class="card">
+						<div class="card-body">
+							<table class="table datatable-basic dataTable no-footer" id="DataTables_Table_0" ="grid" aria-describedby="DataTables_Table_0_info" >
+
+								<tbody>
+									<tr>
+                <th>IdOffre</th>
+                <td>{{ offre.idOffre }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ offre.nom }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ offre.description }}</td>
+            </tr>
+            <tr>
+                <th>Image</th>
+                <td><img width="50px" height="50px" src="{{ asset('/images/' ~ offre.image) }}"  alt="">  </td>
+            </tr>
+            <tr>
+                <th>Points</th>
+                <td>{{ offre.points }}</td>
+           </tr>
+								</tbody>
+							</table>
+
+							<div class="text-right" align="center">
+								<a class="btn btn-success btn-add" style="width:190px"  href="{{ path('valider_achat', {'idOffre': offre.idOffre}) }}
+">
+												<i class="feather-corner-up-left "></i>
+											Acheter Offre
+								</a>
+						    
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	 </div>  
+</div>
+</div>
+<br> <br> <br> <br> 
+<br> <br> <br> <br>
+    
+     
+    
+    
+   
+{% endblock %}

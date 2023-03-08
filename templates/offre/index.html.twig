@@ -1,0 +1,79 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}Offre index{% endblock %}
+
+{% block content %}
+ <div class="page-wrapper">
+    <div class="content container-fluid pb-0">
+        <h4 class="mb-3">Offres</h4>
+        <div class="row">
+            <div class="page-header">
+                <div class="row align-items-center">
+                    <div class="col-md-12 d-flex justify-content-end">
+                        <div class="text-right">
+                            <a class="btn btn-primary btn-add" style="width:190px" href="{{ path('app_offre_new') }}">
+                                <i class="feather-plus-square me-1"></i>
+                                Ajouter offres
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <table class="table datatable-basic table table-borderless hover-table" id="datatable">
+                    <div class="card-body">
+                        <div class="header-elements">
+                            <thead class="thead-light">
+                                <tr>
+                                        <th>IdOffre</th>
+                                        <th>Nom</th>
+                                        <th>Description</th>
+                                        <th>Image</th>
+                                        <th>Pourcentage de reduction</th>
+                                        <th>Categorie</th>
+                                        <th>actions</th>
+
+                               
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                 {% for offre in offres %}
+                                    <tr>
+                                        <td>{{ offre.idOffre }}</td>
+                                        <td>{{ offre.nom }}</td>
+                                        <td>{{ offre.description }}</td>
+                                        <td><img width="50px" height="50px" src="{{ asset('/images/' ~ offre.image) }}"  alt=""></td>
+                                        <td>{{ offre.points }}</td>
+                                        <td>{{offre.idCategorie}}</td>
+                                       
+                                      <td style="display: inline-flex;margin-left: 78px;" colspan="3">
+                                        
+                                        <a href="{{ path('app_offre_show', {'idOffre': offre.idOffre}) }}"
+                                            class="btn btn-sm bg-primary-light">
+                                            <i class="far fa-eye"></i>
+                                        </a>
+                                        &nbsp;
+                                        <a href="{{ path('app_offre_edit', {'idOffre': offre.idOffre}) }}"
+                                            class="btn btn-sm bg-info-light">
+                                            <i class="far fa-edit"></i>
+                                        </a>
+                                        &nbsp;
+                                        {{ include('offre/_delete_form.html.twig') }}
+                                    </td>
+                              
+                                </tr>
+                                {% else %}
+                                <tr>
+                                    <td colspan="20">no records found</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                            </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
