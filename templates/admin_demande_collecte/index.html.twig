@@ -1,0 +1,65 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}demandes de collecte{% endblock %}
+
+{% block content %}
+ <div class="page-wrapper">
+    <div class="content container-fluid pb-0">
+        <h4 class="mb-3">demandes de collecte</h4>
+        <div class="row">
+            <div class="page-header">
+                <div class="row align-items-center">
+                    <div class="col-md-12 d-flex justify-content-end">
+                        <div class="text-right">
+                
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <table class="table datatable-basic table table-borderless hover-table" id="datatable">
+                    <div class="card-body">
+                        <div class="header-elements">
+                            <thead class="thead-light">
+                               <tr>
+                <th>IdDemandeCollecte</th>
+                <th>DateDemande</th>
+                <th>EtatDemande</th>
+                <th>IdPoubelle</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+        {% for demande_collecte in demande_collectes %}
+            <tr>
+                <td>{{ demande_collecte.idDemandeCollecte }}</td>
+                <td>{{ demande_collecte.dateDemande ? demande_collecte.dateDemande|date('Y-m-d') : '' }}</td>
+                <td>{{ demande_collecte.etatDemande }}</td>
+                <td>{{ demande_collecte.idPoubelle }}</td>
+                <td>
+                                       
+                                       <td>
+
+                               <a href="{{ path('app_admin_demande_collecte_accept', {'idDemandeCollecte': demande_collecte.idDemandeCollecte}) }}" class="btn btn-success">Accept</a>
+
+                                <a href="{{ path('app_admin_demande_collecte_reject', {'idDemandeCollecte': demande_collecte.idDemandeCollecte}) }}" class="btn btn-danger">Reject</a>
+
+                              
+                                            </td>
+    
+
+                                </tr>
+                                {% else %}
+                                <tr>
+                                    <td colspan="20">no records found</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                            </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
