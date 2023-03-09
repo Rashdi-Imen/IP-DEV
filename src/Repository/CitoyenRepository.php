@@ -39,6 +39,14 @@ class CitoyenRepository extends ServiceEntityRepository
         }
     }
 
+    public function findAll(): array
+    {
+        return $this->createQueryBuilder('o')
+            ->getQuery()
+            ->getResult();
+    }
+
+
 //    /**
 //     * @return Citoyen[] Returns an array of Citoyen objects
 //     */

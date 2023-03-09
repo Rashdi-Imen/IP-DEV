@@ -42,5 +42,12 @@ class CategorieOffreRepository extends ServiceEntityRepository
         }
     }
 
+    public function findAll(): array
+{
+    return $this->createQueryBuilder('o')
+        ->getQuery()
+        ->getResult();
+}
+
     // Add other custom query methods here
 }

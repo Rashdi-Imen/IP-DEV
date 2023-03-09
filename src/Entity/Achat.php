@@ -42,7 +42,7 @@ class Achat
     /**
      * @var \Offre
      *
-     * @ORM\ManyToOne(targetEntity="Offre")
+     * @ORM\ManyToOne(targetEntity="Offre",cascade={"persist"}))
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_offre", referencedColumnName="id_offre")
      * })

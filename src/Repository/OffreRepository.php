@@ -50,6 +50,17 @@ class OffreRepository extends ServiceEntityRepository
                 ->getQuery()
                 ->getResult();
         }
+
+        public function findByCategorieName($nom)
+        {
+            return $this->createQueryBuilder('o')
+                ->join('o.IdCategorie', 'c')
+                ->where('c.nom = :nom')
+                ->setParameter('nom', $nom)
+                ->getQuery()
+                ->getResult();
+        }
+
     public function searchNom($nom)
         {
             return $this->createQueryBuilder('s')
@@ -58,5 +69,12 @@ class OffreRepository extends ServiceEntityRepository
                 ->getQuery()
                 ->execute();
         }
+
+        public function findAll(): array
+{
+    return $this->createQueryBuilder('o')
+        ->getQuery()
+        ->getResult();
+}
     
 }

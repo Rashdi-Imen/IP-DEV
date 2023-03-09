@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Form\AchatType;
 use App\Form\UserType;
 use App\Form\OffreType;
+use App\Repository\OffreRepository;
 use App\Entity\Achat;   
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,7 +22,12 @@ use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Encoding\Encoding;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Endroid\QrCode\Builder\BuilderInterface;
-
+use Endroid\QrCode\Writer\PngWriter;
+use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelLow;
+use Endroid\QrCode\Color\Color;
+use Endroid\QrCode\Logo\Logo;
+use Endroid\QrCode\Label\Label;
+use Endroid\QrCode\Label\Font\NotoSans ;
 class AchatController extends AbstractController
 {
     #[Route('/achat/{idOffre}', name: 'app_achat')]
@@ -57,8 +63,8 @@ class AchatController extends AbstractController
         $entityManager->persist($achat);
         $entityManager->flush();
     
-        $message = (new \Symfony\Component\Mime\Email())
-            ->from('your_email@gmail.com')
+        $message = (new Email())
+            ->from('omarbenfathallah2021@gmail.com')
             ->to($user->getEmail())
             ->subject('Offre achetée avec succès')
             ->html($this->renderView('achat/achat_success.html.twig', ['offre' => $offre]));
@@ -72,32 +78,40 @@ class AchatController extends AbstractController
     
     
 
-    #[Route('/Sendmail/{idOffre}',name:'valide_achat')]
-    public function someAction(MailerInterface $mailer , Offre $offre , EntityManagerInterface $entityManager) : Response
+    #[Route('/Sendqr/{idOffre}',name:'valide_achat')]
+    public function someAction(MailerInterface $mailer , Offre $offre ,int $idOffre, EntityManagerInterface $entityManager,OffreRepository $offreRepo) : Response
     {
-        // Render the detailsOffre.html.twig template and store its contents in a variable
-        $detailsOffreTemplateContents = $this->renderView('default/detailsOffre.html.twig', [
-            'offre' => $offre,
-        ]);
-
-        // Send the email to the user
-      //  $userId = 10;
-        $userEmail = 'omarbenfathallah782@gmail.com';
-
-        $email = (new Email())
-            ->to($userEmail)
-            ->subject('Details Offre')
-            ->html($detailsOffreTemplateContents);
-
-        $mailer->send($email);
-
-      //  return new Response('Email sent successfully');
-
-        // ...
-       /* return $this->redirectToRoute('offers', ['idOffre' => $offre->getIdOffre()]);
-        return $this->redirectToRoute('app_details_show', [], Response::HTTP_SEE_OTHER);*/
-        return $this->redirectToRoute('app_details_show', ['idOffre' => $offre->getIdOffre()]);
-        
+        $offre=$offreRepo->find($idOffre); 
+        $qrString = "la promotion :" . $offre->getPoints()."%";
+         $writer = new PngWriter();
+ 
+         $qrCode = QrCode::create($qrString)
+             ->setEncoding(new Encoding('UTF-8'))
+             ->setErrorCorrectionLevel(new ErrorCorrectionLevelLow())
+             ->setSize(120)
+             ->setMargin(0)
+             ->setForegroundColor(new Color(0, 0, 0))
+             ->setBackgroundColor(new Color(255, 255, 255));
+         $logo = Logo::create('images/logo.png')
+             ->setResizeToWidth(60);
+         $label = Label::create('')->setFont(new NotoSans(8));
+  
+         $qrCodes = [];
+         $qrCodes['img'] = $writer->write($qrCode, $logo)->getDataUri();
+         $qrCodes['simple'] = $writer->write(
+                                 $qrCode,
+                                 null,
+                                 $label->setText('Simple')
+                             )->getDataUri(); 
+         
+         return $this->render('achat/achat_success.html.twig', [
+             'offre' => $offre,
+ 
+             'qrCodes' =>$qrCodes,
+             
+         
+             
+         ]);
 
     }
     

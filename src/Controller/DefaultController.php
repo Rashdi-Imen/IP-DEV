@@ -58,7 +58,7 @@ class DefaultController extends AbstractController
         ->getRepository(Offre::class)
         ->findAll();
        
-        $pagination = $paginator->paginate( $offres , $request->query->getInt('page', 1 ), 4);  
+        $pagination = $paginator->paginate( $offres , $request->query->getInt('page', 1 ), 6);  
     
         return $this->render('default/offer.html.twig', [
             'offres' => $pagination,
@@ -88,6 +88,7 @@ class DefaultController extends AbstractController
             $categorieOffres = $entityManager
                 ->getRepository(CategorieOffres::class)
                 ->findAll();
+
             $searchQuery = $request->query->get('q');
 
             $offres = $this->getDoctrine()
@@ -101,7 +102,7 @@ class DefaultController extends AbstractController
                 ->getResult();
 
          
-          $pagination = $paginator->paginate( $offres , $request->query->getInt('page', 1 ), 3);  
+                $pagination = $paginator->paginate( $offres , $request->query->getInt('page', 1 ), 6);  
 
             return $this->render('offre/search.html.twig', [
                // 'offre' =>$pagination,
@@ -110,6 +111,21 @@ class DefaultController extends AbstractController
                 'categorieOffres' => $categorieOffres
             ]);
         }
+
+        #[Route("/offres/filtre", name:"offres_index", methods:['GET'])]
+        public function index(OffreRepository $offreRepository, CategorieOffreRepository $categorieOffreRepository, Request $request): Response
+        {
+            $categorieFilter = $request->query->get('category');
+            $offres = $categorieFilter ? $offreRepository->findByCategorieName($categorieFilter) : $offreRepository->findAll();
+            $categorieOffres = $categorieOffreRepository->findAll();
+            
+            return $this->render('offre/index.html.twig', [
+                'offres' => $offres,
+                'categorieOffres' => $categorieOffres,
+            ]);
+        }
+
+
 }
     
  /*    
