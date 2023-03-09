@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Achat
  *
- * @ORM\Table(name="achat", indexes={@ORM\Index(name="id_offre", columns={"id_offre"}), @ORM\Index(name="id_user", columns={"id_user"})})
+ * @ORM\Table(name="achat", indexes={@ORM\Index(name="id_user", columns={"id_user"}), @ORM\Index(name="id_offre", columns={"id_offre"})})
  * @ORM\Entity
  */
 class Achat
@@ -30,16 +30,6 @@ class Achat
     private $dateAchat;
 
     /**
-     * @var \Offre
-     *
-     * @ORM\ManyToOne(targetEntity="Offre")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_offre", referencedColumnName="id_offre")
-     * })
-     */
-    private $idOffre;
-
-    /**
      * @var \User
      *
      * @ORM\ManyToOne(targetEntity="User")
@@ -48,6 +38,16 @@ class Achat
      * })
      */
     private $idUser;
+
+    /**
+     * @var \Offre
+     *
+     * @ORM\ManyToOne(targetEntity="Offre")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_offre", referencedColumnName="id_offre")
+     * })
+     */
+    private $idOffre;
 
     public function getIdAchat(): ?int
     {
@@ -66,18 +66,6 @@ class Achat
         return $this;
     }
 
-    public function getIdOffre(): ?Offre
-    {
-        return $this->idOffre;
-    }
-
-    public function setIdOffre(?Offre $idOffre): self
-    {
-        $this->idOffre = $idOffre;
-
-        return $this;
-    }
-
     public function getIdUser(): ?User
     {
         return $this->idUser;
@@ -86,6 +74,18 @@ class Achat
     public function setIdUser(?User $idUser): self
     {
         $this->idUser = $idUser;
+
+        return $this;
+    }
+
+    public function getIdOffre(): ?Offre
+    {
+        return $this->idOffre;
+    }
+
+    public function setIdOffre(?Offre $idOffre): self
+    {
+        $this->idOffre = $idOffre;
 
         return $this;
     }

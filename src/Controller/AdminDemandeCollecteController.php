@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Controller;
-
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use App\Entity\DemandeCollecte;
 use App\Form\DemandeCollecte1Type;
 use Doctrine\ORM\EntityManagerInterface;
@@ -27,7 +28,7 @@ class AdminDemandeCollecteController extends AbstractController
 
 
     #[Route('/{idDemandeCollecte}/accept', name: 'app_admin_demande_collecte_accept')]
-    public function acceptDemande($idDemandeCollecte, Request $request, DemandeCollecte $demandeCollecte, EntityManagerInterface $entityManager)
+    public function acceptDemande(MailerInterface $mailer, $idDemandeCollecte, Request $request, DemandeCollecte $demandeCollecte, EntityManagerInterface $entityManager)
     {
         
         $demandeCollecte = $entityManager->getRepository(DemandeCollecte::class)->find($idDemandeCollecte);
@@ -36,8 +37,16 @@ class AdminDemandeCollecteController extends AbstractController
             throw $this->createNotFoundException('No demande found for id '.$idDemandeCollecte);
         }
 
-        $demandeCollecte->setEtatDemande('accepted');
+        $demandeCollecte->setEtatDemande('accepté');
         $entityManager->flush();
+
+        $email = (new Email())
+            ->from('hello@example.com')
+            ->to('you@example.com')
+            ->subject('Demande de Collecte')
+            ->text('votre demande de collecte a ete accepté');
+
+        $mailer->send($email);
 
         return $this->redirectToRoute('app_admin_demande_collecte', [], Response::HTTP_SEE_OTHER);
     }
@@ -52,7 +61,7 @@ class AdminDemandeCollecteController extends AbstractController
             throw $this->createNotFoundException('No demande found for id '.$idDemandeCollecte);
         }
 
-        $demandeCollecte->setEtatDemande('rejected');
+        $demandeCollecte->setEtatDemande('refusé');
         $entityManager->flush();
 
         return $this->redirectToRoute('app_admin_demande_collecte', [], Response::HTTP_SEE_OTHER);

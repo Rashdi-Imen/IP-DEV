@@ -12,8 +12,8 @@ class DemandeCollecte1Type extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('dateDemande')
-            ->add('etatDemande')
+            
+    
             ->add('idPoubelle')
             ->add('idUser')
         ;

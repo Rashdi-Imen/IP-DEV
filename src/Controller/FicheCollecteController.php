@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Controller;
-
+use App\Entity\DemandeCollecte;
+use App\Entity\Poubelle;
 use App\Entity\FicheCollecte;
+use App\Entity\User;
 use App\Form\FicheCollecte1Type;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -32,8 +34,25 @@ class FicheCollecteController extends AbstractController
         $form = $this->createForm(FicheCollecte1Type::class, $ficheCollecte);
         $form->handleRequest($request);
 
+       
+
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($ficheCollecte);
+            $entityManager->flush();
+
+           $demande=$ficheCollecte->getIdDemandeCollecte();
+           $poubelle=$demande->getIdPoubelle();
+   
+           $type=$poubelle->getIdType();
+   
+           $poids_dechets = $ficheCollecte->getPoids() - $type->getPoidsVide();
+           $points = $poids_dechets * $type->getMultiplicateur();
+
+        
+
+$user = $ficheCollecte->getIdUser();
+            $user->setSolde($user->getSolde() + intval($points));
+            $entityManager->persist($user);
             $entityManager->flush();
 
             return $this->redirectToRoute('app_fiche_collecte_index', [], Response::HTTP_SEE_OTHER);

@@ -3,12 +3,11 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * FicheCollecte
  *
- * @ORM\Table(name="fiche_collecte", indexes={@ORM\Index(name="id_demande_collecte", columns={"id_demande_collecte"}), @ORM\Index(name="id_user", columns={"id_user"})})
+ * @ORM\Table(name="fiche_collecte", indexes={@ORM\Index(name="id_user", columns={"id_user"}), @ORM\Index(name="id_demande_collecte", columns={"id_demande_collecte"})})
  * @ORM\Entity
  */
 class FicheCollecte
@@ -20,7 +19,6 @@ class FicheCollecte
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-   
     private $idFicheCollecte;
 
     /**
@@ -28,8 +26,6 @@ class FicheCollecte
      *
      * @ORM\Column(name="poids", type="integer", nullable=false)
      */
-    #[Assert\NotBlank (message:"champs obligatoire")]
-    #[Assert\Positive (message:"le poids doit etre positive")]
     private $poids;
 
     /**
@@ -40,7 +36,6 @@ class FicheCollecte
      *   @ORM\JoinColumn(name="id_demande_collecte", referencedColumnName="id_demande_collecte")
      * })
      */
-    #[Assert\NotBlank (message:"champs obligatoire")]
     private $idDemandeCollecte;
 
     /**
@@ -51,7 +46,6 @@ class FicheCollecte
      *   @ORM\JoinColumn(name="id_user", referencedColumnName="id_user")
      * })
      */
-    #[Assert\NotBlank (message:"champs obligatoire")]
     private $idUser;
 
     public function getIdFicheCollecte(): ?int

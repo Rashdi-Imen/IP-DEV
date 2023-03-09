@@ -1,14 +1,14 @@
 <?php
 
 namespace App\Entity;
-use Symfony\Component\Validator\Constraints as Assert;
+
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * DemandeCollecte
  *
- * @ORM\Table(name="demande_collecte", indexes={@ORM\Index(name="id_poubelle", columns={"id_poubelle"}), @ORM\Index(name="id_user", columns={"id_user"})})
+ * @ORM\Table(name="demande_collecte", indexes={@ORM\Index(name="id_user", columns={"id_user"}), @ORM\Index(name="id_poubelle", columns={"id_poubelle"})})
  * @ORM\Entity
  */
 class DemandeCollecte
@@ -27,7 +27,6 @@ class DemandeCollecte
      *
      * @ORM\Column(name="date_demande", type="date", nullable=false)
      */
- 
     private $dateDemande;
 
     /**
@@ -35,7 +34,6 @@ class DemandeCollecte
      *
      * @ORM\Column(name="etat_demande", type="string", length=255, nullable=false)
      */
-    #[Assert\NotBlank (message:"champs obligatoire")]
     private $etatDemande;
 
     /**
@@ -46,7 +44,6 @@ class DemandeCollecte
      *   @ORM\JoinColumn(name="id_poubelle", referencedColumnName="id_poubelle")
      * })
      */
-    #[Assert\NotBlank (message:"champs obligatoire")]
     private $idPoubelle;
 
     /**
@@ -57,7 +54,6 @@ class DemandeCollecte
      *   @ORM\JoinColumn(name="id_user", referencedColumnName="id_user")
      * })
      */
-    #[Assert\NotBlank (message:"champs obligatoire")]
     private $idUser;
 
     public function getIdDemandeCollecte(): ?int
@@ -112,9 +108,9 @@ class DemandeCollecte
 
         return $this;
     }
+
     public function __toString() 
     {
         return (string) $this->idDemandeCollecte; 
     }
-
 }

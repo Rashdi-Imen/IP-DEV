@@ -42,6 +42,13 @@ class Type
      */
     private $couleur;
 
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="multiplicateur", type="float", precision=10, scale=0, nullable=false)
+     */
+    private $multiplicateur;
+
     public function getIdType(): ?int
     {
         return $this->idType;
@@ -79,6 +86,18 @@ class Type
     public function setCouleur(string $couleur): self
     {
         $this->couleur = $couleur;
+
+        return $this;
+    }
+
+    public function getMultiplicateur(): ?float
+    {
+        return $this->multiplicateur;
+    }
+
+    public function setMultiplicateur(float $multiplicateur): self
+    {
+        $this->multiplicateur = $multiplicateur;
 
         return $this;
     }

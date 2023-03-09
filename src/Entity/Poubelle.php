@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Poubelle
  *
- * @ORM\Table(name="poubelle", indexes={@ORM\Index(name="id_type", columns={"id_type"}), @ORM\Index(name="id_user", columns={"id_user"})})
+ * @ORM\Table(name="poubelle", indexes={@ORM\Index(name="id_user", columns={"id_user"}), @ORM\Index(name="id_type", columns={"id_type"})})
  * @ORM\Entity
  */
 class Poubelle
@@ -69,7 +69,6 @@ class Poubelle
 
         return $this;
     }
-
     public function __toString() 
     {
         return (string) $this->idPoubelle; 

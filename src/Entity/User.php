@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * User
  *
- * @ORM\Table(name="user")
+ * @ORM\Table(name="user", uniqueConstraints={@ORM\UniqueConstraint(name="UNIQ_8D93D649E7927C74", columns={"email"})})
  * @ORM\Entity
  */
 class User
@@ -76,6 +76,13 @@ class User
      * @ORM\Column(name="confirm_password", type="string", length=255, nullable=false)
      */
     private $confirmPassword;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="solde", type="integer", nullable=false)
+     */
+    private $solde;
 
     public function getIdUser(): ?int
     {
@@ -177,9 +184,21 @@ class User
 
         return $this;
     }
-    public function __toString() 
-{
-    return (string) $this->idUser; 
-}
 
+    public function getSolde(): ?int
+    {
+        return $this->solde;
+    }
+
+    public function setSolde(int $solde): self
+    {
+        $this->solde = $solde;
+
+        return $this;
+    }
+
+    public function __toString() 
+    {
+        return (string) $this->idUser; 
+    }
 }

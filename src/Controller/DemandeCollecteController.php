@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Controller;
-
+use DateTimeImmutable;
 use App\Entity\DemandeCollecte;
 use App\Form\DemandeCollecte1Type;
 use Doctrine\ORM\EntityManagerInterface;
@@ -29,6 +29,11 @@ class DemandeCollecteController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $demandeCollecte = new DemandeCollecte();
+        $demandeCollecte-> setEtatDemande('en attente');
+
+        $currentDate = DateTimeImmutable::createFromFormat('Y-m-d', date('Y-m-d'));
+
+        $demandeCollecte-> setDateDemande($currentDate);
         $form = $this->createForm(DemandeCollecte1Type::class, $demandeCollecte);
         $form->handleRequest($request);
 
