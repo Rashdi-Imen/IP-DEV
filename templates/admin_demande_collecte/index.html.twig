@@ -31,6 +31,7 @@
         </thead>
         <tbody>
         {% for demande_collecte in demande_collectes %}
+  {# {% if demande_collecte.etatDemande == 'en attente' %} #}
             <tr>
                 <td>{{ demande_collecte.idDemandeCollecte }}</td>
                 <td>{{ demande_collecte.dateDemande ? demande_collecte.dateDemande|date('Y-m-d') : '' }}</td>
@@ -49,6 +50,8 @@
     
 
                                 </tr>
+                                
+                                {#{% endif %}#}
                                 {% else %}
                                 <tr>
                                     <td colspan="20">no records found</td>
@@ -57,6 +60,9 @@
                             </tbody>
                             </tbody>
                 </table>
+
+                 <div class="text-center"> {{knp_pagination_render(demande_collectes)}} </div>
+
             </div>
         </div>
     </div>

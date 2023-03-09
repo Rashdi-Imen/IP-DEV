@@ -1,8 +1,7 @@
 <?php
 
 namespace App\Controller;
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Email;
+
 use App\Entity\DemandeCollecte;
 use App\Form\DemandeCollecte1Type;
 use Doctrine\ORM\EntityManagerInterface;
@@ -10,17 +9,20 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Knp\Component\Pager\PaginatorInterface;
+
 #[Route('/admin/demande/collecte')]
 class AdminDemandeCollecteController extends AbstractController
 {
     #[Route('/', name: 'app_admin_demande_collecte')]
-    public function index(EntityManagerInterface $entityManager): Response
+    public function index(EntityManagerInterface $entityManager, PaginatorInterface $paginator , Request $request): Response
     {
 
         $demandeCollectes = $entityManager
             ->getRepository(DemandeCollecte::class)
             ->findAll();
-
+            $demandeCollectes = $paginator->paginate($demandeCollectes,
+            $request->query->getInt('page',1),3);
         return $this->render('admin_demande_collecte/index.html.twig', [
             'controller_name' => 'AdminDemandeCollecteController','demande_collectes' => $demandeCollectes,
         ]);
@@ -28,7 +30,7 @@ class AdminDemandeCollecteController extends AbstractController
 
 
     #[Route('/{idDemandeCollecte}/accept', name: 'app_admin_demande_collecte_accept')]
-    public function acceptDemande(MailerInterface $mailer, $idDemandeCollecte, Request $request, DemandeCollecte $demandeCollecte, EntityManagerInterface $entityManager)
+    public function acceptDemande( $idDemandeCollecte, Request $request, DemandeCollecte $demandeCollecte, EntityManagerInterface $entityManager)
     {
         
         $demandeCollecte = $entityManager->getRepository(DemandeCollecte::class)->find($idDemandeCollecte);
@@ -40,13 +42,7 @@ class AdminDemandeCollecteController extends AbstractController
         $demandeCollecte->setEtatDemande('accepté');
         $entityManager->flush();
 
-        $email = (new Email())
-            ->from('hello@example.com')
-            ->to('you@example.com')
-            ->subject('Demande de Collecte')
-            ->text('votre demande de collecte a ete accepté');
-
-        $mailer->send($email);
+    
 
         return $this->redirectToRoute('app_admin_demande_collecte', [], Response::HTTP_SEE_OTHER);
     }

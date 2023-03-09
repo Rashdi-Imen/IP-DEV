@@ -11,16 +11,20 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Knp\Component\Pager\PaginatorInterface;
 #[Route('/fiche/collecte')]
 class FicheCollecteController extends AbstractController
 {
     #[Route('/', name: 'app_fiche_collecte_index', methods: ['GET'])]
-    public function index(EntityManagerInterface $entityManager): Response
+    public function index(EntityManagerInterface $entityManager , PaginatorInterface $paginator , Request $request): Response
     {
         $ficheCollectes = $entityManager
             ->getRepository(FicheCollecte::class)
             ->findAll();
+
+            $ficheCollectes = $paginator->paginate($ficheCollectes,
+            $request->query->getInt('page',1),5
+    );
 
         return $this->render('fiche_collecte/index.html.twig', [
             'fiche_collectes' => $ficheCollectes,
